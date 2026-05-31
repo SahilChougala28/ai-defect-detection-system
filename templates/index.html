@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Defect Detection</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+
+    <div class="background"></div>
+
+    <div class="container">
+
+        <div class="glass-card">
+
+            <h1>AI Defect Detection</h1>
+
+            <p>
+                Smart Industrial Casting Inspection System
+            </p>
+
+            <form action="/predict"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <label class="upload-area">
+
+                    <input type="file"
+                           name="file"
+                           id="fileInput"
+                           accept="image/*"
+                           required>
+
+                    <span>
+                        Drag & Drop or Click to Upload
+                    </span>
+
+                </label>
+
+                <div class="preview-container">
+
+                    <img id="previewImage">
+
+                </div>
+
+                <button type="submit">
+                    Analyze Product
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+<script>
+
+const fileInput = document.getElementById("fileInput");
+const previewImage = document.getElementById("previewImage");
+
+fileInput.addEventListener("change", function(){
+
+    const file = this.files[0];
+
+    if(file){
+
+        const reader = new FileReader();
+
+        reader.onload = function(e){
+
+            previewImage.src = e.target.result;
+            previewImage.style.display = "block";
+        }
+
+        reader.readAsDataURL(file);
+    }
+});
+
+</script>
+
+</body>
+
+</html> 
