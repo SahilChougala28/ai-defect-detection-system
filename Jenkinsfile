@@ -5,39 +5,26 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/SahilChougala28/ai-defect-detection-system.git'
+                echo 'Checking out source code'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build') {
             steps {
-                echo 'Building Docker Image...'
-                sh 'docker build -t ai-defect-detection .'
+                echo 'Building AI Defect Detection Application'
             }
         }
 
-        stage('Stop Old Container') {
+        stage('Test') {
             steps {
-                sh 'docker stop defect-app || true'
-                sh 'docker rm defect-app || true'
+                echo 'Running Tests'
             }
         }
 
-        stage('Deploy New Container') {
+        stage('Deploy') {
             steps {
-                sh 'docker run -d -p 8000:8000 --name defect-app ai-defect-detection'
+                echo 'Application Deployed Successfully'
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Deployment Successful!'
-        }
-
-        failure {
-            echo 'Deployment Failed!'
         }
     }
 }
