@@ -13,6 +13,7 @@ stages {
 
     stage('Build Docker Image') {
         steps {
+            echo 'Building Docker Image...'
             sh 'docker build -t ai-defect-detection .'
         }
     }
@@ -35,6 +36,7 @@ post {
     success {
         echo 'Deployment Successful!'
     }
+
     failure {
         echo 'Deployment Failed!'
     }
