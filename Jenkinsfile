@@ -1,46 +1,43 @@
 pipeline {
-agent any
+    agent any
 
-```
-stages {
+    stages {
 
-    stage('Checkout') {
-        steps {
-            git branch: 'main',
-                url: 'https://github.com/SahilChougala28/ai-defect-detection-system.git'
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/SahilChougala28/ai-defect-detection-system.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo 'Building Docker Image...'
+                sh 'docker build -t ai-defect-detection .'
+            }
+        }
+
+        stage('Stop Old Container') {
+            steps {
+                sh 'docker stop defect-app || true'
+                sh 'docker rm defect-app || true'
+            }
+        }
+
+        stage('Deploy New Container') {
+            steps {
+                sh 'docker run -d -p 8000:8000 --name defect-app ai-defect-detection'
+            }
         }
     }
 
-    stage('Build Docker Image') {
-        steps {
-            echo 'Building Docker Image...'
-            sh 'docker build -t ai-defect-detection .'
+    post {
+        success {
+            echo 'Deployment Successful!'
+        }
+
+        failure {
+            echo 'Deployment Failed!'
         }
     }
-
-    stage('Stop Old Container') {
-        steps {
-            sh 'docker stop defect-app || true'
-            sh 'docker rm defect-app || true'
-        }
-    }
-
-    stage('Deploy New Container') {
-        steps {
-            sh 'docker run -d -p 8000:8000 --name defect-app ai-defect-detection'
-        }
-    }
-}
-
-post {
-    success {
-        echo 'Deployment Successful!'
-    }
-
-    failure {
-        echo 'Deployment Failed!'
-    }
-}
-```
-
 }
